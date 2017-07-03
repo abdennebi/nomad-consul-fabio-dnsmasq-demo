@@ -25,3 +25,55 @@ gcloud compute instances create c1 c2 c3 \
   --can-ip-forward \
   --metadata-from-file startup-script=server-install.sh
 ```
+
+Output :
+
+```
+Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c1].
+Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c2].
+Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c3].
+NAME  ZONE        MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+c1    us-west1-a  n1-standard-1               10.138.0.4   35.197.35.11   RUNNING
+c2    us-west1-a  n1-standard-1               10.138.0.5   35.197.33.196  RUNNING
+c3    us-west1-a  n1-standard-1               10.138.0.3   35.197.45.197  RUNNING
+```
+
+## Verify
+
+Ssh to `c1` :
+
+```
+gcloud compute ssh c1
+```
+Let `c1` join `c2` and `c3`. Once joined, the *gossip layer* will handle discovery between `c2` and `c3`.
+
+```
+nomad server-join c2 c3
+```
+
+Output :
+
+```
+Joined 2 servers successfully
+```
+
+### Complete the setup of the consul cluster
+
+```
+consul join c2 c3
+```
+Output :
+
+```
+Successfully joined cluster by contacting 2 nodes.
+```
+Verify :
+
+```
+consul members
+```
+
+Node  Address          Status  Type    Build  Protocol  DC
+c1    10.138.0.4:8301  alive   server  0.8.5  2         dc1
+c2    10.138.0.5:8301  alive   server  0.8.5  2         dc1
+c3    10.138.0.3:8301  alive   server  0.8.5  2         dc1
