@@ -32,6 +32,7 @@ Output :
 Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c1].
 Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c2].
 Created [https://www.googleapis.com/compute/v1/projects/nomad-consul-fabio-dnsmasq/zones/us-west1-a/instances/c3].
+
 NAME  ZONE        MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
 c1    us-west1-a  n1-standard-1               10.138.0.4   35.197.35.11   RUNNING
 c2    us-west1-a  n1-standard-1               10.138.0.5   35.197.33.196  RUNNING
@@ -73,7 +74,9 @@ Verify :
 consul members
 ```
 
+```
 Node  Address          Status  Type    Build  Protocol  DC
 c1    10.138.0.4:8301  alive   server  0.8.5  2         dc1
 c2    10.138.0.5:8301  alive   server  0.8.5  2         dc1
 c3    10.138.0.3:8301  alive   server  0.8.5  2         dc1
+```
