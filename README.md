@@ -6,7 +6,14 @@
 
 1. Create a new project in Google Compute Engine and call it : ``nomad-consul-fabio-dnsmasq``. When the project is ready, open the *Cloud Shell*.
 
-2. Create three Compute Engine instances named respectively `c1`, `c2` and `c3`. The startup script server-install.sh will install and configure **Nomad** and **Consul**.
+2. Clone this repository :
+```
+cd ~
+git clone https://github.com/HashiStack/nomad-consul-fabio-dnsmasq-gcp-demo.git
+cd nomad-consul-fabio-dnsmasq-gcp-demo
+```
+
+3. Create three Compute Engine instances named respectively `c1`, `c2` and `c3`. The startup script `server-install.sh` will install and configure **Nomad** and **Consul**.
 
 ```
 gcloud compute instances create c1 c2 c3 \
