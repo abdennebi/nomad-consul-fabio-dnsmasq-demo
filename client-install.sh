@@ -70,3 +70,33 @@ EOF
 
 systemctl enable dnsmasq
 systemctl start dnsmasq
+
+## Install Docker
+
+wget -q https://get.docker.com/builds/Linux/x86_64/docker-1.13.1.tgz
+tar -xvf docker-1.13.1.tgz
+cp docker/docker* /usr/bin/
+
+cat > docker.service <<EOF
+[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.io
+
+[Service]
+ExecStart=/usr/bin/docker daemon \
+  --iptables=false \
+  --ip-masq=false \
+  --host=unix:///var/run/docker.sock \
+  --log-level=error \
+  --storage-driver=overlay
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target\
+EOF
+
+mv docker.service /etc/systemd/system/docker.service
+
+systemctl enable docker
+systemctl start docker
