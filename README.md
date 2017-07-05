@@ -80,3 +80,15 @@ c1    10.138.0.4:8301  alive   server  0.8.5  2         dc1
 c2    10.138.0.5:8301  alive   server  0.8.5  2         dc1
 c3    10.138.0.3:8301  alive   server  0.8.5  2         dc1
 ```
+
+## Bootstrap Worker Nodes
+
+```
+gcloud compute instances create w1 w2 w3 w4 w5 \
+  --image-project ubuntu-os-cloud \
+  --image-family ubuntu-1604-lts \
+  --zone=us-west1-a \
+  --boot-disk-size 10GB \
+  --machine-type n1-standard-1 \
+  --metadata-from-file startup-script=client-install.sh
+```
