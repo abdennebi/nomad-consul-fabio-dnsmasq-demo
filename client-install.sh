@@ -77,7 +77,7 @@ wget -q https://get.docker.com/builds/Linux/x86_64/docker-1.13.1.tgz
 tar -xvf docker-1.13.1.tgz
 cp docker/docker* /usr/bin/
 
-cat > docker.service <<EOF
+cat > docker.service <<'EOF'
 [Unit]
 Description=Docker Application Container Engine
 Documentation=http://docs.docker.io
@@ -93,7 +93,7 @@ Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=multi-user.target\
+WantedBy=multi-user.target
 EOF
 
 mv docker.service /etc/systemd/system/docker.service
