@@ -92,3 +92,13 @@ gcloud compute instances create w1 w2 w3 w4 w5 \
   --machine-type n1-standard-1 \
   --metadata-from-file startup-script=client-install.sh
 ```
+
+## Deploy Consul to worker nodes
+
+```
+nomad run jobs/consul.nomad
+```
+
+```
+consul join w1 w2 w3 w4 w5
+```
