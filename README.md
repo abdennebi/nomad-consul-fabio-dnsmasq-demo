@@ -84,7 +84,7 @@ c3    10.138.0.3:8301  alive   server  0.8.5  2         dc1
 ## Bootstrap Worker Nodes
 
 ```
-gcloud compute instances create w1 w2 w3 w4 w5 \
+gcloud compute instances create w1 w2 w3 \
   --image-project ubuntu-os-cloud \
   --image-family ubuntu-1604-lts \
   --zone=us-west1-a \
