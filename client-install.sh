@@ -25,6 +25,7 @@ advertise {
     rpc  = "ADVERTISE_ADDR:4647"
 }
 
+bind_addr = "0.0.0.0"
 data_dir  = "/var/lib/nomad"
 log_level = "DEBUG"
 
