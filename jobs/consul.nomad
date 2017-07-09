@@ -11,7 +11,7 @@ job "consul" {
       driver = "exec"
       config {
         command = "consul"
-        args = ["agent", "-data-dir", "/var/lib/consul"] 
+        args = ["agent", "-data-dir", "/var/lib/consul", "-join", "c1","-join", "c2","-join", "c3"]
       }
 
       artifact {
