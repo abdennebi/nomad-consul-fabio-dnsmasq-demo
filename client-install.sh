@@ -25,7 +25,7 @@ advertise {
     rpc  = "ADVERTISE_ADDR:4647"
 }
 
-bind_addr = "0.0.0.0"
+bind_addr = "ADVERTISE_ADDR"
 data_dir  = "/var/lib/nomad"
 log_level = "DEBUG"
 
@@ -69,6 +69,10 @@ cat > /etc/dnsmasq.d/10-consul <<'EOF'
 server=/consul/127.0.0.1#8600
 EOF
 
+cat > /etc/dnsmasq.d/20-fabio <<'EOF'
+address=/.service/127.0.0.2
+EOF
+
 systemctl enable dnsmasq
 systemctl start dnsmasq
 
@@ -89,6 +93,7 @@ ExecStart=/usr/bin/docker daemon \
   --ip-masq=false \
   --host=unix:///var/run/docker.sock \
   --log-level=error \
+  --bridge=none \
   --storage-driver=overlay
 Restart=on-failure
 RestartSec=5
