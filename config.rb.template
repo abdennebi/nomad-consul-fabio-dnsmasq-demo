@@ -1,0 +1,7 @@
+# Rename this file to config.rb
+# Uncomment to cutomize values
+#$controller_count=3
+#$controller_vm_memory=512
+
+#$worker_count=2
+#$worker_vm_memory=1024
