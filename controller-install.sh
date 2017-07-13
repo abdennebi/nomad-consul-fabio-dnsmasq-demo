@@ -1,6 +1,3 @@
-export IP_ADDRESS=$(curl -s -H "Metadata-Flavor: Google" \
-  http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip)
-
 apt-get update
 apt-get install -y unzip
 
@@ -9,7 +6,7 @@ apt-get install -y unzip
 mkdir -p /var/lib/consul
 wget https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_amd64.zip
 unzip consul_0.8.5_linux_amd64.zip -d /usr/local/bin/
-rm consul_0.6.4_linux_amd64.zip
+rm consul_0.8.5_linux_amd64.zip
 
 cat > consul.service <<EOF
 [Unit]

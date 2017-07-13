@@ -1,10 +1,9 @@
 #!/bin/bash
 
-export IP_ADDRESS=$(curl -s -H "Metadata-Flavor: Google" \
-  http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip)
-
 apt-get update
 apt-get install -y unzip dnsmasq
+
+# Setup Nomad
 
 wget https://releases.hashicorp.com/nomad/0.5.6/nomad_0.5.6_linux_amd64.zip
 unzip nomad_0.5.6_linux_amd64.zip -d /usr/local/bin/
@@ -62,6 +61,30 @@ mv nomad.service /etc/systemd/system/nomad.service
 systemctl enable nomad
 systemctl start nomad
 
+## Setup Consul
+
+mkdir -p /var/lib/consul
+wget https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_amd64.zip
+unzip consul_0.8.5_linux_amd64.zip -d /usr/local/bin/
+rm consul_0.8.5_linux_amd64.zip
+
+cat > consul.service <<EOF
+[Unit]
+Description=consul
+
+[Service]
+ExecStart=/usr/local/bin/consul agent -data-dir=/etc/consul.d -retry-join c1 -retry-join c2 -retry-join c3 -advertise=ADVERTISE_ADDR -ui
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sed -i "s/ADVERTISE_ADDR/${IP_ADDRESS}/" consul.service
+
+mv consul.service /etc/systemd/system/consul.service
+systemctl enable consul
+systemctl start consul
+
 ## Setup dnsmasq
 
 mkdir -p /etc/dnsmasq.d
@@ -70,7 +93,7 @@ server=/consul/127.0.0.1#8600
 EOF
 
 cat > /etc/dnsmasq.d/20-fabio <<'EOF'
-address=/.service/127.0.0.2
+address=/.service/127.0.0.1
 EOF
 
 systemctl enable dnsmasq
